@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora</title>
+    <style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        outline: 0;
+        padding: 0;
+    }
+    body {  
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }   
+
+    #calculadora {
+        width: 300px;
+        height: auto;
+        border: 1px solid black;
+        margin: 10px 10px 10px 10px;
+        padding: 10px;
+        font-family: Arial, sans-serif;
+        border-radius: 5px;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+        background-color: lightgreen;     
+    }
+
+    #visor {
+        width: 260px;
+        height: 40px;
+        border: 1px solid gray;
+        margin: 10px;
+        padding: 5px;
+        font-size: 24px;
+        text-align: right;
+        border-radius: 5px;
+		background: black;
+        color: green;
+    }
+
+    .teclas {
+        border-radius: 5px;
+        width: 50px;
+        height: 50px;
+        border: 1px solid black;
+        margin: 8px;
+        padding: 10px;
+        font-size: 24px;
+        text-align: center;
+        cursor: pointer;
+        display: inline-block;
+    }   
+    .teclas_memoria {
+        border-radius: 5px;
+        width: 50px;
+        height: 50px;
+        border: 1px solid black;
+        margin: 8px;
+        padding: 10px;
+        font-size: 24px;
+        text-align: center;
+        align-items: center;
+        cursor: pointer;
+        display: inline-block;
+        background-color: orchid;
+    } 
+    
+    .teclas:hover {
+        background-color: lightgray;
+    }   
+
+    #botoes {
+        text-align: left;
+        margin-top: 10px;
+    }
+	
+    #identificacao {
+        width: 260px;
+        height: auto;
+        border: 1px solid gray;
+        margin: 10px;
+        padding: 5px;
+        font-size: 18px;
+        text-align: right;
+        border-radius: 5px;
+		background: SkyBlue;
+		text-align: left;
+        display: none;
+	  }	
+
+    .teclas123 {
+        border-radius: 5px;
+        width: 50px;
+        height: 50px;
+        border: 1px solid black;
+        margin: 8px;
+        padding: 10px;
+        font-size: 24px;
+        text-align: center;
+        cursor: pointer;
+        display: inline-block;
+		background-color: LightGrey;
+    }	    
+
+    .teclas456 {
+        border-radius: 5px;
+        width: 50px;
+        height: 50px;
+        border: 1px solid black;
+        margin: 8px;
+        padding: 10px;
+        font-size: 24px;
+        text-align: center;
+        cursor: pointer;
+        display: inline-block;
+		background-color: DarkGray;
+    }	    
+	
+    .teclas789 {
+        border-radius: 5px;
+        width: 50px;
+        height: 50px;
+        border: 1px solid black;
+        margin: 8px;
+        padding: 10px;
+        font-size: 24px;
+        text-align: center;
+        cursor: pointer;
+        display: inline-block;
+		background-color: DimGray;
+		color: white;
+    }	
+
+    #historico {
+        width: 150px;
+        height: 520px;
+        border: 1px solid black;
+        margin: 10px 10px 10px 10px;
+        padding: 5px;
+        font-family: Arial, sans-serif;
+        border-radius: 5px;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15); 
+        text-align: center;  
+        font-size: 12px;      
+    }
+    
+    #limparhistorico{
+        border: 1px solid black;
+        font-family: Arial, sans-serif;
+        border-radius: 5px;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0 .15); 
+        text-align: center;   
+        color: white; 
+        background-color: red;
+        cursor: pointer;
+    }
+    .botao{
+        border-radius: 5px;
+        width: 100px;
+        height: 40px;
+        border: 1px solid gray;
+        margin: 8px;
+        padding: 5px;
+        font-size: 12px;
+        text-align: center;
+        cursor: pointer;
+        display: inline-block;
+        background-color: orange;
+        color: white;
+    }
+    #tituloHistorico {
+        border: 1px solid black;
+        font-family: Arial, sans-serif;
+        border-radius: 5px;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0 .15); 
+        text-align: center;   
+        color: white;   
+        background-color: blue;
+    }    
+    @media (max-width: 600px) {
+        #calculadora, #historico {
+            width: 100%;
+            margin: 5px;
+        }
+        #visor {
+            width: calc(100% - 20px);
+        }
+        .teclas, .teclas123, .teclas456, .teclas789 {
+            width: 20%;
+            margin: 2%;
+        }
+        #identificacao {
+            width: calc(100% - 20px);
+        }
+    }
+    .teclas:focus, .teclas123:focus, .teclas456:focus, .teclas789:focus {
+      outline: 2px solid blue;
+    }    
+  </style>
+</head>
+<body>
+    <div id="calculadora" aria-label="Calculadora">
+    <div id="visor"  aria-label="Calculadora">0</div>
+    <br>
+    <div>
+      <div class="teclas" style="background: cyan;" onclick="limpaVisor()">C</div>
+      <div class="teclas789" onclick="adicionaDigito(7)">7</div>
+      <div class="teclas789" onclick="adicionaDigito(8)">8</div>
+      <div class="teclas789" onclick="adicionaDigito(9)">9</div>
+    </div>
+
+    <div>
+      <div class="teclas" style="background: blue; color: white;" onclick="defineOperacao('+')">+</div>
+      <div class="teclas456" onclick="adicionaDigito(4)">4</div>
+      <div class="teclas456" onclick="adicionaDigito(5)">5</div>
+      <div class="teclas456" onclick="adicionaDigito(6)">6</div>
+    </div>
+
+    <div>
+      <div class="teclas" style="background: red; color: white;" onclick="defineOperacao('-')">-</div>
+      <div class="teclas123" onclick="adicionaDigito(1)">1</div>
+      <div class="teclas123" onclick="adicionaDigito(2)">2</div>
+      <div class="teclas123" onclick="adicionaDigito(3)">3</div>
+    </div>
+
+    <div>
+      <div class="teclas" style="background: yellow;"onclick="defineOperacao('*')">x</div>
+      <div class="teclas" onclick="adicionaDigito(0)" style="background-color: gray;">0</div>
+      <div class="teclas" style="background: Gainsboro; color: black;" onclick="adicionaDecimal()">.</div>
+      <div class="teclas" style="background-color: green; color:white" onclick="defineOperacao('/')">÷</div>
+    </div>
+	    <div class="teclas" style="background: SkyBlue; color: black;" onclick="calculeResultado()">=</div>
+        <div class="teclas_memoria" onclick="funcaom()">M+</div>
+        <div class="teclas_memoria" onclick="funcaomr()">MR</div>
+        <div class="teclas_memoria" onclick="funcaomc()">MC</div>
+        <div id="botoes">
+            <button class="botao" onclick="apareceAluno()">Mostrar/Ocultar ID aluno</button>
+            <button class="botao" onclick="trocarCor()">Trocar cor do visor</button>
+        </div>
+    
+        <div id="identificacao">
+		<div>Aluno 1: Jhonny Richard dos Santos</div>
+		<div>RA: 53482</div>	
+	</div>	
+  </div>
+
+
+
+
+
+
+
+  <div id="historico" aria-live="polite">
+    <div id="limparhistorico" onclick="limparHistorico()">Limpar Histórico</div>
+    <br>
+    <div id="tituloHistorico">Histórico</div>  
+    <div id="conteudoHistorico"></div>
+  </div>
+  <script>
+    var valorVisor = "0";
+    var primeiroValor = null;
+    var segundoValor = null;
+    var operacao = null;
+    var acumulaHistorico = "";
+
+    function apareceAluno(){
+        document.getElementById("identificacao");
+        if (document.getElementById("identificacao").style.display === "none") {
+            document.getElementById("identificacao").style.display = "block";
+        } else {
+            document.getElementById("identificacao").style.display = "none";
+        }
+    }
+    function trocarCor(){
+        if (document.getElementById("visor").style.backgroundColor === "black") {
+            document.getElementById("visor").style.backgroundColor = "purple";
+            document.getElementById("visor").style.color = "white";            
+        } else if (document.getElementById("visor").style.backgroundColor === "purple") {
+            document.getElementById("visor").style.backgroundColor = "orange";
+            document.getElementById("visor").style.color = "black";
+        }
+        else if (document.getElementById("visor").style.backgroundColor === "orange") {
+            document.getElementById("visor").style.backgroundColor = "green";
+            document.getElementById("visor").style.color = "white";
+        }        
+        else {
+            document.getElementById("visor").style.backgroundColor = "black";
+            document.getElementById("visor").style.color = "green";            
+        }
+
+
+    }
+    function funcaom(){
+        localStorage.setItem('memoria', valorVisor);
+    }
+    function funcaomr(){
+        if (localStorage.getItem('memoria')) {
+            valorVisor = localStorage.getItem('memoria');
+            atualizaVisor();
+        }
+    }
+    function funcaomc(){
+        localStorage.removeItem('memoria');
+    }
+
+    // Função para limpar o visor e redefinir as variáveis
+    function limpaVisor() {
+      valorVisor = "0";
+      primeiroValor = null;
+      segundoValor = null;
+      operacao = null;
+      atualizaVisor();
+      acumulaHistorico = acumulaHistorico;
+    }
+
+    // Função para acrescentar um dígito ao valor exibido
+    function adicionaDigito(digit) {
+      // Se o valor exibido for 0, substitua-o pelo dígito
+      if (valorVisor === "0") {
+        valorVisor = digit.toString();
+      } else {
+        // Caso contrário, anexe o dígito ao valor de exibição
+        valorVisor += digit.toString();
+      }
+      atualizaVisor();
+    }
+
+    // Função para acrescentar um ponto decimal ao valor de exibição
+    function adicionaDecimal() {
+      // Se o valor de exibição não contiver um ponto decimal, anexe um
+      if (!valorVisor.includes(".")) {
+        valorVisor += ".";
+      }
+      atualizaVisor();
+    }
+
+    // Função para definir a operação e armazenar o primeiro operando
+    function defineOperacao(op) {      
+      // Se a operação não for nula, calcule primeiro o resultado
+      if (operacao !== null) {
+        calculeResultado();
+      }
+      // Armazene o valor de exibição como o primeiro operando
+      primeiroValor = parseFloat(valorVisor);
+      
+      // Defina a operação
+      operacao = op;
+
+      // Apresenta o valor no histórico
+      var div = document.getElementById("conteudoHistorico");
+      div.innerHTML = '<br />' + div.innerHTML + valorVisor + ' ' + op; 
+
+      // Limpe o valor de exibição
+      valorVisor = "0";
+      atualizaVisor();
+    }
+
+    // Função para calcular o resultado e exibi-lo
+    function calculeResultado() {
+      // Se a operação for nula, não faça nada
+      if (operacao === null) {
+        return;
+      }
+
+      // Armazena o valor de exibição como o segundo operando
+      segundoValor = parseFloat(valorVisor);
+
+      // Apresenta o valor no histórico
+      acumulaHistorico = document.getElementById("conteudoHistorico").innerText;
+      document.getElementById("conteudoHistorico").innerText = acumulaHistorico + ' ' + segundoValor;      
+
+      // Realize o cálculo com base na operação      
+      switch (operacao) {
+        case "+":
+          valorVisor = (primeiroValor + segundoValor).toString();
+          break;
+        case "-":
+          valorVisor = (primeiroValor - segundoValor).toString();
+          break;
+        case "/":
+          valorVisor = (primeiroValor / segundoValor).toString();
+          break;
+        case "*":
+          valorVisor = (primeiroValor * segundoValor).toString();
+          break;
+      }
+
+      // Apresenta o valor no histórico
+      var div = document.getElementById("conteudoHistorico");
+      div.innerHTML = div.innerHTML + " = " + valorVisor + '<br />';
+
+      // Resetar a operação e os operandos
+      operacao = null;
+      primeiroValor = null;
+      segundoValor = null;
+      atualizaVisor();
+    }
+
+    // Função para atualizar o elemento de exibição com o valor de exibição
+    function atualizaVisor() {
+      document.getElementById("visor").innerText = valorVisor;
+      localStorage.setItem('visor', valorVisor); // Armazenar no localStorage
+    }
+
+    // Carregar o valor do localStorage quando a página for recarregada
+    window.onload = function() {
+      if (localStorage.getItem('visor')) {
+        valorVisor = localStorage.getItem('visor');
+        atualizaVisor();
+      }
+    }
+    function limparHistorico() {
+        acumulaHistorico = document.getElementById("conteudoHistorico").innerText = "";
+    }
+  </script>
+</body>
+</html>
